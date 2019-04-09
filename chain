@@ -1,0 +1,46 @@
+#!/bin/sh
+# init-like orchestrator for prompt tuning
+# Richard Jarry -- 2019 (Public Domain)
+
+MODULE_DIR=$HOME"/.config/prompt/modules" # Module directory (script stash)
+ACTIVE_DIR=$HOME"/.config/prompt/active"  # Active directory (script symlinks)
+
+STARTING="["	# Change these if you want to change the visual
+STOPPING="]"	# appearence of the enclosing for each module.
+
+# Dump prompt chain if no args
+if test "$#" -eq 0; then
+	set -- "show"
+fi
+
+# Argument parser
+for i in "$@"   
+do
+case $i in
+    active|list|ls|l)
+    ls $ACTIVE_DIR
+    ;;  
+    modules|mod|m)
+    ls $MODULE_DIR
+    ;;  
+    show|s|dump|d)
+
+        for module in $(ls $ACTIVE_DIR)
+        do  
+	    echo -n $STARTING
+            sh $MODULE_DIR/$module
+	    echo -n $STOPPING
+        done
+    ;;  
+    push:*)
+    MODULE="${i#*:}"
+    echo "test"$MODULE
+    ln -s $MODULE_DIR/$MODULE $ACTIVE_DIR/
+    ;;  
+    pop:*)
+    MODULE="${i#*:}"
+    echo $MODULE
+    rm -i $ACTIVE_DIR/$MODULE
+    ;;  
+esac
+done
