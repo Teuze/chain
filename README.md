@@ -1,4 +1,4 @@
-# Chain -- A multi-shell infoline
+# Chain 
 
 An init-like tool displaying system info for your shell prompt.
 
