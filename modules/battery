@@ -1,0 +1,7 @@
+#!/bin/sh
+UP=$(cat /sys/class/power_supply/BAT0/status | grep -o "Charging" | sed s/"Charging"/↑/)
+DOWN=$(cat /sys/class/power_supply/BAT0/status | grep -o "Discharging" | sed s/"Discharging"/↓/)
+FULL=$(cat /sys/class/power_supply/BAT0/status | grep -o "Full" | sed s/"Full"/·/)
+CAPACITY=$(cat /sys/class/power_supply/BAT0/capacity)
+ 
+echo -n $UP$DOWN$FULL$CAPACITY% 
