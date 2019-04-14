@@ -34,7 +34,6 @@ case $i in
     ;;  
     push:*)
     MODULE="${i#*:}"
-    echo "test"$MODULE
     ln -s $MODULE_DIR/$MODULE $ACTIVE_DIR/
     ;;  
     pop:*)
