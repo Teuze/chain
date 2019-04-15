@@ -1,2 +1,2 @@
 #!/bin/sh
-echo -n $(date "+%x")
+echo -n $(date "+%X")
