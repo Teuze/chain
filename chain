@@ -27,9 +27,13 @@ case $i in
 
         for module in $(ls $ACTIVE_DIR)
         do  
-	    echo -n $STARTING
-            sh $MODULE_DIR/$module
-	    echo -n $STOPPING
+            CONTENTS=$(sh $MODULE_DIR/$module)
+
+	    if test -n "$CONTENTS"; then
+		echo -n $STARTING
+		echo -n $CONTENTS
+		echo -n $STOPPING
+	    fi
         done
     ;;  
     push:*)
