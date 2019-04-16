@@ -1,0 +1,81 @@
+#!/bin/sh
+# Echo with color and print mode support
+# Richard Jarry -- 2019 (see LICENSE.md) 
+
+PREFIX="\033["	# Escape code prefix
+STRING=""	# Displayed string
+
+for i in "$@"	# Argument parser
+do
+case $i in
+    -b|--bold)
+    PREFIX=$PREFIX"1;"
+    ;;
+    -f|--faint)
+    PREFIX=$PREFIX"2;"
+    ;;
+    -i|--italic)
+    PREFIX=$PREFIX"3;"
+    ;;
+    -u|--underline)
+    PREFIX=$PREFIX"4;"
+    ;;
+    -w|--blink)
+    PREFIX=$PREFIX"5;"
+    ;;
+    -r|--reverse)
+    PREFIX=$PREFIX"7;"
+    ;;
+    -h|--hidden)
+    PREFIX=$PREFIX"8;"
+    ;;
+    -c|--crossing)
+    PREFIX=$PREFIX"9;"
+    ;;
+
+    -n=*|--font=*)
+	FONT="${i#*=}"
+	if [ $FONT -ge 10 -a $FONT -le 19 ]; then
+		PREFIX=$PREFIX$FONT";"
+	fi
+    ;;
+    -fg=*|--fg-color=*)
+    COLOR="${i#*=}"
+        case $COLOR in
+                black)   PREFIX=$PREFIX"30;" ;;
+                red)     PREFIX=$PREFIX"31;" ;;
+                green)   PREFIX=$PREFIX"32;" ;;
+                yellow)  PREFIX=$PREFIX"33;" ;;
+                blue)    PREFIX=$PREFIX"34;" ;;
+                magenta) PREFIX=$PREFIX"35;" ;;
+                cyan)    PREFIX=$PREFIX"36;" ;;
+                white)   PREFIX=$PREFIX"37;" ;;
+		*)	echo "Unknown color."; exit 1 ;;
+        esac
+    ;;
+
+    -bg=*|--bg-color=*)
+    COLOR="${i#*=}"
+	case $COLOR in
+		black)	 PREFIX=$PREFIX"40;" ;;
+		red)	 PREFIX=$PREFIX"41;" ;;
+		green)	 PREFIX=$PREFIX"42;" ;;
+		yellow)	 PREFIX=$PREFIX"43;" ;;
+		blue)	 PREFIX=$PREFIX"44;" ;;
+		magenta) PREFIX=$PREFIX"45;" ;;
+		cyan)	 PREFIX=$PREFIX"46;" ;;
+		white)	 PREFIX=$PREFIX"47;" ;;
+		*)	echo "Unknown color."; exit 1 ;;
+	esac
+    ;;
+
+    *)
+	STRING=$STRING$i # Each unprocessed arg goes there
+    ;;
+esac
+done
+
+SUFFIX="\033[0m"
+
+# Echoing the final result
+echo ${PREFIX%?}"m"$STRING$SUFFIX

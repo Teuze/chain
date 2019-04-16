@@ -5,7 +5,7 @@ if git -C $PWD rev-parse 2> /dev/null; then
 	BRANCH=$(git branch | cut -d' ' -f2)
 	STATUS=$(git status -s)
 
-	echo -n ⎇ $BRANCH
+	echo -n $(alma ⎇ " $BRANCH" -fg=cyan)
 
 	MOD=$(git status -s | grep -oe ^" M " | wc -l)
 	ADD=$(git status -s | grep -oe ^"?? " | wc -l)
@@ -13,7 +13,7 @@ if git -C $PWD rev-parse 2> /dev/null; then
 
 	if test $MOD -gt 0 -o $ADD -gt 0 -o $DEL -gt 0; then echo -n ":"; fi
 
-	if test $MOD -gt 0; then echo -n \#$MOD; fi
-	if test $ADD -gt 0; then echo -n +$ADD; fi
-	if test $DEL -gt 0; then echo -n -$DEL; fi
+	if test $MOD -gt 0; then echo -n $( alma -fg=red \#$MOD); fi
+	if test $ADD -gt 0; then echo -n $( alma -fg=red +$ADD);  fi
+	if test $DEL -gt 0; then echo -n $( alma -fg=red -$DEL);  fi
 fi

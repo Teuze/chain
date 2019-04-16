@@ -1,2 +1,2 @@
 #!/bin/sh
-echo -n $(date "+%x")
+echo -n $(alma $(date "+%x") -fg=white)

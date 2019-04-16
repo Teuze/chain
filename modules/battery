@@ -4,4 +4,4 @@ DOWN=$(cat /sys/class/power_supply/BAT0/status | grep -o "Discharging" | sed s/"
 FULL=$(cat /sys/class/power_supply/BAT0/status | grep -o "Full" | sed s/"Full"/·/)
 CAPACITY=$(cat /sys/class/power_supply/BAT0/capacity)
  
-echo -n $UP$DOWN$FULL$CAPACITY% 
+echo -n $(alma $UP$DOWN$FULL$CAPACITY% -fg=yellow)
