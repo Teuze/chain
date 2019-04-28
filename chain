@@ -9,21 +9,36 @@ STARTING="["	# Change these if you want to change the visual
 STOPPING="]"	# appearence of the enclosing for each module.
 
 # Dump prompt chain if no args
-if test "$#" -eq 0; then
+if test "$#" -lt 1; then
 	set -- "show"
 fi
 
+if test "$#" -gt 1; then
+	echo "Too many arguments (expected 1 or less)"
+	set -- "help"
+fi
+
 # Argument parser
-for i in "$@"   
-do
-case $i in
-    active|list|ls|l)
+case $1 in
+    version|--version|-v)
+    echo "Chain v0.1 alpha (April 2019)"
+    ;;
+    help|--help|-h)
+    echo "Chain : System info display for your prompt."
+    echo "Usage : $0 # For current chain display"
+    echo "        $0 modules # To get a list of available info modules"
+    echo "        $0 push:module1 # To put the module1 on your chain"
+    echo "        $0 pop:module1  # To rid the module1 on your chain"
+    echo "Chain uses this directory to store modules : $MODULE_DIR"
+    echo "Chain uses this directory for active links : $ACTIVE_DIR"
+    ;;
+    active|list|ls|-l)
     ls $ACTIVE_DIR
     ;;  
-    modules|mod|m)
+    modules|mod|-m)
     ls $MODULE_DIR
     ;;  
-    show|s|dump|d)
+    show|s|dump|-d)
 
         for module in $(ls $ACTIVE_DIR)
         do  
@@ -36,14 +51,13 @@ case $i in
 	    fi
         done
     ;;  
-    push:*)
+    push:*|++*)
     MODULE="${i#*:}"
     ln -s $MODULE_DIR/$MODULE $ACTIVE_DIR/
     ;;  
-    pop:*)
+    pop:*|--*)
     MODULE="${i#*:}"
     echo $MODULE
     rm -i $ACTIVE_DIR/$MODULE
     ;;  
 esac
-done
