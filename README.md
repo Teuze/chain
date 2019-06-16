@@ -1,3 +1,6 @@
+[DEPRECATED] -- I now use **bobthefish** as shell prompt theme.
+Have a look at `omf` framework for `fish`.
+
 # Chain 
 
 An init-like tool displaying system info for your shell prompt.
@@ -20,29 +23,4 @@ An init-like tool displaying system info for your shell prompt.
 	in the right rcfile (that is, `.bashrc` `.zshrc` and so on).
 
 Easy, right ? You can even use the `color` script to prettify your infoline.
-
-## Usage example
-
-### Within Bash
-
-```bash
-export PS1="$(/path/to/prompt)" 		# For the current session
-echo "PS1=$(/path/to/prompt)" >> $HOME/.bashrc	# For every session
-```
-
-### Within Zsh
-
-```
-# I don't know ZSH yet lulz
-```
-
-### Within Fish
-
-```
-# In-session or in .config/fish/config.fish
-function fish_prompt ()
-	sh /path/to/prompt
-	echo ":suffix -> "
-end
-```
 
